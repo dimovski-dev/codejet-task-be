@@ -16,8 +16,10 @@ services:
       - '3000:3000'
     depends_on:
       - mongodb
-    environment:
-      MONGODB_URI: mongodb://mongodb:27017/sensor-db
+    env_file:
+      - .env
+    volumes:
+      - .env:/usr/src/app/.env
 
 volumes:
   mongo-data:
