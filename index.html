@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WS test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        margin-right: 10px;
+      }
+      input {
+        padding: 5px;
+      }
+      button {
+        padding: 10px 20px;
+      }
+      #messages {
+        margin-top: 20px;
+        width: 100%;
+        max-width: 600px;
+      }
+      .message {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Sensor Data</h1>
+    <div class="form-group">
+      <label for="temperature">Temperature:</label>
+      <input type="number" id="temperature" name="temperature" required />
+    </div>
+    <div class="form-group">
+      <label for="humidity">Humidity:</label>
+      <input type="number" id="humidity" name="numidity" required />
+    </div>
+    <button id="sendButton">Send Data</button>
+
+    <div id="messages"></div>
+
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script>
+      const socket = io('http://localhost:3000');
+
+      socket.on('connect', () => {
+        console.log('Connected to WebSocket server');
+        displayMessage('Connected to WebSocket server');
+      });
+
+      socket.on('disconnect', () => {
+        console.log('Disconnected from WebSocket server');
+        displayMessage('Disconnected from WebSocket server');
+      });
+
+      socket.on('message', (message) => {
+        displayMessage(`Received: ${message}`);
+      });
+
+      function displayMessage(message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message';
+        messageDiv.textContent = message;
+        document.getElementById('messages').appendChild(messageDiv);
+      }
+
+      document.getElementById('sendButton').addEventListener('click', () => {
+        const temperature = document.getElementById('temperature').value;
+        const humidity = document.getElementById('humidity').value;
+
+        if (temperature && humidity) {
+          const data = {
+            temperature: parseFloat(temperature),
+            humidity: parseFloat(humidity),
+          };
+
+          socket.emit('sendData', data);
+          displayMessage(`Sent: ${JSON.stringify(data)}`);
+        } else {
+          alert('Please enter both temperature and humidity');
+        }
+      });
+    </script>
+  </body>
+</html>
