@@ -1,4 +1,13 @@
 
+# Sensor Data App
+
+A brief description of what this project does and who it's fo
+
+## Author
+
+- [@dimovski-dev](https://www.github.com/dimovski-dev)
+
+
 ## Run Backend Locally
 
 Clone the project
@@ -32,5 +41,14 @@ Clone the project
 
 ```bash
   open index.html
+```
+
+
+## Running Tests
+
+To run tests, run the following command
+
+```bash
+  yarn test
 ```
 
