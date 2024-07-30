@@ -37,7 +37,7 @@ Start the server
 
 ## Run Simple Frontend Locally
 
-Clone the project
+Run the project
 
 ```bash
   open index.html
